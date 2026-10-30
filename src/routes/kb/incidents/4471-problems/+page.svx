@@ -14,29 +14,35 @@ signature: v1.eyJzdWIiOiIyMjUyIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYX
   import RenderStamp from '#lib/kb/RenderStamp.svelte';
 
   const repo = 'https://github.com/cendreuse-og/mega-s01e03/issues';
-  const issues = { parser: `${repo}/1`, hint: `${repo}/2`, 'one-day': `${repo}/3` };
+  const tickets = {
+    parser: { url: `${repo}/1`, status: 'fixed' },
+    hint: { url: `${repo}/2`, status: "won't fix" },
+    'one-day': { url: `${repo}/3`, status: 'open' },
+  };
 </script>
 
-[#4471](/kb/incidents/4471) says one issue, one fix queued. Read the reports instead of the
-subjects and it is three problems. The queued parser fix closes only the first.
+[#4471](/kb/incidents/4471) said one issue, one fix queued. Read the reports instead of the
+subjects and it held three problems. Engineering closed #4471 on 5 October with two outcomes;
+the third problem was not in its update.
 
 <Callout kind="warn">
-Not known. Three problems, one ticket each. Fixing the parser leaves the other two open.
+#4471 is closed, the one-day problem is not. Reports of a date one day off still have no fix.
 </Callout>
 
 ## The split
 
-<ProblemTable ticket={4471} {issues} />
+<ProblemTable ticket={4471} {tickets} />
 
-- **`parser`**: the shared parser reads every date month first; every tenant on file writes the
-  day first. Reports say a date came out with day and month swapped: 8 June became 6 August.
-  Any channel, every tenant. This is what #4471 describes.
-- **`hint`**: the booking-v3 form prints `MM/DD/YYYY` under its date field, people type month
-  first as told, and the form reads it day first. Only form reports, only from booking-v3
-  tenants. The parser fix does not touch it.
+- **`parser`**: the shared parser read every date month first; every tenant on file writes the
+  day first, so day and month came out swapped: 8 June became 6 August. Any channel, every
+  tenant. **Fixed**: `fix(dates): parse dd/mm for eu locales`.
+- **`hint`**: the booking-v3 form printed `MM/DD/YYYY` under its date field, people typed month
+  first as told, and the form read it day first. Only form reports, only from booking-v3
+  tenants. **Won't fix**: the booking-v3 form is retired.
 - **`one-day`**: the date moves by one day, not by a swapped month ("Tuesday 6 October showed as
   Monday", "client in Lisbon got Tuesday, client in Toronto got Monday"). That points at a time
-  zone shift, not at date order. The desk read these as a one-day move and still filed them under `parser`.
+  zone shift, not at date order, so the parser fix does not reach it. The desk counts these
+  under `parser` by tenant and footnotes them. **Open.**
 
 ## Why #4471 looked like one problem
 
@@ -46,7 +52,7 @@ Not known. Three problems, one ticket each. Fixing the parser leaves the other t
   in both directions. Count by tenant and form, not by tag.
 - The ticket export repeats reports across pages. Count each id once.
 
-The page as #4471 renders it, for comparison:
+The desk's own view of #4471, for comparison:
 
 <CauseTable ticket={4471} />
 

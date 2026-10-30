@@ -1,1 +1,0 @@
-export{n as component}from"../chunks/CpiO8CW2.js";
