@@ -17,7 +17,7 @@ signature: v1.eyJzdWIiOiIyMjUyIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYX
   const tickets = {
     parser: { url: `${repo}/1`, status: 'fixed' },
     hint: { url: `${repo}/2`, status: "won't fix" },
-    'one-day': { url: `${repo}/3`, status: 'open' },
+    'one-day': { url: `${repo}/3`, status: 'not planned' },
   };
 </script>
 
@@ -42,7 +42,8 @@ the third problem was not in its update.
 - **`one-day`**: the date moves by one day, not by a swapped month ("Tuesday 6 October showed as
   Monday", "client in Lisbon got Tuesday, client in Toronto got Monday"). That points at a time
   zone shift, not at date order, so the parser fix does not reach it. The desk counts these
-  under `parser` by tenant and footnotes them. **Open.**
+  under `parser` by tenant and footnotes them. **Not planned**: not in engineering's update, no
+  fix recorded.
 
 ## Why #4471 looked like one problem
 

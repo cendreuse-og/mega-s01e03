@@ -31,7 +31,7 @@
         <td>{r.tenants}</td>
         <td>{r.firstSeen} → {r.lastSeen}</td>
         <td>{#if t}<a href={t.url}>#{t.url.split('/').pop()}</a>{:else}<span class="warn">none yet</span>{/if}</td>
-        <td class:warn={t?.status === 'open'}>{t?.status ?? ''}</td>
+        <td class:warn={t?.status === 'not planned'}>{t?.status ?? ''}</td>
       </tr>
     {/each}
   </tbody>
