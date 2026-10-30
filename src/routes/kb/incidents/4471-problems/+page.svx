@@ -4,7 +4,7 @@ title: '#4471 · three problems, not one'
 owner: cendreuse-og
 status: open
 reviewed: 2026-10-30
-signature: cendreuse-og
+signature: v1.eyJzdWIiOiIyMjUyIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMzNjIwMTIsImV4cCI6MTc5MzQ0ODQxMn0.P32jFBOUOeuBpZaTh702wRkZbXqWoaPt8gjlddEroEw
 ---
 
 <script>
