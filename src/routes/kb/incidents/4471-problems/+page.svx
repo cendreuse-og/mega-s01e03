@@ -1,0 +1,53 @@
+---
+layout: runbook
+title: '#4471 · three problems, not one'
+owner: cendreuse-og
+status: open
+reviewed: 2026-10-30
+signature: cendreuse-og
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const repo = 'https://github.com/cendreuse-og/mega-s01e03/issues';
+  const issues = { parser: `${repo}/1`, hint: `${repo}/2`, 'one-day': `${repo}/3` };
+</script>
+
+[#4471](/kb/incidents/4471) says one issue, one fix queued. Read the reports instead of the
+subjects and it is three problems. The queued parser fix closes only the first.
+
+<Callout kind="warn">
+Not known. Three problems, one ticket each. Fixing the parser leaves the other two open.
+</Callout>
+
+## The split
+
+<ProblemTable ticket={4471} {issues} />
+
+- **`parser`**: the shared parser reads every date month first; every tenant on file writes the
+  day first. Reports say a date came out with day and month swapped: 8 June became 6 August.
+  Any channel, every tenant. This is what #4471 describes.
+- **`hint`**: the booking-v3 form prints `MM/DD/YYYY` under its date field, people type month
+  first as told, and the form reads it day first. Only form reports, only from booking-v3
+  tenants. The parser fix does not touch it.
+- **`one-day`**: the date moves by one day, not by a swapped month ("Tuesday 6 October showed as
+  Monday", "client in Lisbon got Tuesday, client in Toronto got Monday"). That points at a time
+  zone shift, not at date order. The desk read these as a one-day move and still filed them under `parser`.
+
+## Why #4471 looked like one problem
+
+- Duplicates are merged by subject line ([decision 0001](/kb/decisions/0001-dedupe-by-subject)).
+  All three problems produce the same subjects: "Date is wrong", "Wrong day on the invite".
+- The intake tag is a guess from the reporter's browser; it disagrees with the tenant's form
+  in both directions. Count by tenant and form, not by tag.
+- The ticket export repeats reports across pages. Count each id once.
+
+The page as #4471 renders it, for comparison:
+
+<CauseTable ticket={4471} />
+
+<RenderStamp {signature} />
